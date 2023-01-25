@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Competition {
+  competition_id   Int       @id @default(autoincrement())
+  competition_name String    @db.VarChar(255)
+  season_name      String    @db.VarChar(255)
+  createdAt        DateTime  @default(now()) @db.Timestamp(6)
+  Matches          Matches[]
+}
+
+model Teams {
+  team_id       Int       @id @default(autoincrement())
+  team_name     String    @db.VarChar(255)
+  team_country  String    @db.VarChar(255)
+  team_initials String?   @db.VarChar(255)
+  createdAt     DateTime  @default(now()) @db.Timestamp(6)
+  homeTeam      Matches[] @relation("homeTeam")
+  visitorTeam   Matches[] @relation("visitorTeam")
+}
+
+model Matches {
+  match_id        Int          @id @default(autoincrement())
+  match_date      DateTime     @default(now()) @db.Timestamp(6)
+  home_goals      Int          @default(0)
+  visitor_goals   Int          @default(0)
+  odd             Float?
+  strategy        String?      @db.VarChar(255)
+  result          String?      @db.VarChar(255)
+  review          String?      @db.VarChar(255)
+  stake           Float?
+  round           Int          @default(0)
+  competition     Competition? @relation(fields: [competition_id], references: [competition_id])
+  competition_id  Int?
+  home_team_id    Int
+  home_team       Teams        @relation("homeTeam", fields: [home_team_id], references: [team_id])
+  visitor_team_id Int
+  visitor_team    Teams        @relation("visitorTeam", fields: [visitor_team_id], references: [team_id])
+  // @@id([round, home_team_id, visitor_team_id])
+
+  @@unique(fields: [round, home_team_id, visitor_team_id], name: "matchUnique")
+}
