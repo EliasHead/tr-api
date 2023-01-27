@@ -36,3 +36,6 @@ lerna-debug.log*
 
 # bancos de dados
 /prisma/data/
+
+.env
+.env_docker
