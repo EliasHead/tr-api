@@ -17,8 +17,8 @@ export class MatchesController {
   constructor(private readonly matchesService: MatchesService) {}
 
   @Post()
-  create(@Body() createMatchDto: CreateMatchDto) {
-    return this.matchesService.create(createMatchDto);
+  create(@Body() data: CreateMatchDto) {
+    return this.matchesService.create(data);
   }
 
   @Get()

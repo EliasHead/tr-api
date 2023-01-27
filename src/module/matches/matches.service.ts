@@ -8,9 +8,14 @@ export class MatchesService {
   constructor(private prisma: PrismaService) {}
 
   async create(createMatchDto: CreateMatchDto) {
+    const m = +createMatchDto.competition_id;
+    console.log('M', m);
+    console.log(typeof m);
     return await this.prisma.matches.create({
       data: {
-        ...createMatchDto,
+        competition_id: +createMatchDto.competition_id,
+        home_team_id: +createMatchDto.home_team_id,
+        visitor_team_id: +createMatchDto.visitor_team_id,
       },
     });
   }

@@ -13,6 +13,8 @@ model Competition {
   season_name      String    @db.VarChar(255)
   createdAt        DateTime  @default(now()) @db.Timestamp(6)
   Matches          Matches[]
+
+  @@map("competitions")
 }
 
 model Teams {
@@ -23,6 +25,8 @@ model Teams {
   createdAt     DateTime  @default(now()) @db.Timestamp(6)
   homeTeam      Matches[] @relation("homeTeam")
   visitorTeam   Matches[] @relation("visitorTeam")
+
+  @@map("teams")
 }
 
 model Matches {
@@ -45,4 +49,5 @@ model Matches {
   // @@id([round, home_team_id, visitor_team_id])
 
   @@unique(fields: [round, home_team_id, visitor_team_id], name: "matchUnique")
+  @@map("matches")
 }
