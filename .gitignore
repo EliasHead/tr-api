@@ -38,4 +38,3 @@ lerna-debug.log*
 /prisma/data/
 
 .env
-.env_docker
