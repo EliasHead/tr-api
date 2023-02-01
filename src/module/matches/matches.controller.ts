@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  // Patch,
   Param,
   Delete,
   Put,
@@ -11,14 +10,15 @@ import {
 import { MatchesService } from './matches.service';
 import { CreateMatchDto } from './dto/create-match.dto';
 import { UpdateMatchDto } from './dto/update-match.dto';
+import { MatchesPipe } from './common/pipe/matches/matches.pipe';
 
 @Controller('matches')
 export class MatchesController {
   constructor(private readonly matchesService: MatchesService) {}
 
   @Post()
-  create(@Body() data: CreateMatchDto) {
-    return this.matchesService.create(data);
+  create(@Body(MatchesPipe) createMatchDto: CreateMatchDto) {
+    return this.matchesService.create(createMatchDto);
   }
 
   @Get()

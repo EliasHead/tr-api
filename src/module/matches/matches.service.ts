@@ -7,15 +7,27 @@ import { PrismaService } from 'src/database/PrismaService';
 export class MatchesService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createMatchDto: CreateMatchDto) {
-    const m = +createMatchDto.competition_id;
-    console.log('M', m);
-    console.log(typeof m);
+  async create(data: CreateMatchDto) {
+    console.log(data);
+
     return await this.prisma.matches.create({
       data: {
-        competition_id: +createMatchDto.competition_id,
-        home_team_id: +createMatchDto.home_team_id,
-        visitor_team_id: +createMatchDto.visitor_team_id,
+        round: data.round,
+        competition: {
+          connect: {
+            competition_id: data.competition_id,
+          },
+        },
+        home_team: {
+          connect: {
+            team_id: data.home_team_id,
+          },
+        },
+        visitor_team: {
+          connect: {
+            team_id: data.visitor_team_id,
+          },
+        },
       },
     });
   }
