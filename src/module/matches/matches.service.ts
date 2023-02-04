@@ -33,7 +33,25 @@ export class MatchesService {
   }
 
   async findAll() {
-    return await this.prisma.matches.findMany();
+    return await this.prisma.matches.findMany({
+      include: {
+        home_team: {
+          select: {
+            team_name: true,
+          },
+        },
+        visitor_team: {
+          select: {
+            team_name: true,
+          },
+        },
+        competition: {
+          select: {
+            competition_name: true,
+          },
+        },
+      },
+    });
   }
 
   async findOne(match_id: number) {
