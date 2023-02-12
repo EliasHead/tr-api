@@ -18,7 +18,7 @@ COPY tsconfig.json ./
 COPY . .
 
 # Install app dependencies
-RUN yarn
+RUN yarn install --development
 
 RUN npx prisma generate
 
