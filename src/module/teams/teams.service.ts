@@ -24,8 +24,16 @@ export class TeamsService {
     return team;
   }
 
-  async findAll() {
-    return this.prisma.teams.findMany();
+  async findAll(page, pageSize) {
+    const take = parseInt(pageSize);
+    const skip = (parseInt(page) - 1) * take;
+
+    const team = await this.prisma.teams.findMany({
+      take,
+      skip,
+    });
+    const total = await this.prisma.teams.count();
+    return { data: team, total, page, pageSize };
   }
 
   async update(team_id: number, data: TeamsDTO) {

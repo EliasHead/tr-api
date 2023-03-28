@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { TeamsDTO } from './teams.dto';
 import { TeamsService } from './teams.service';
@@ -20,8 +21,8 @@ export class TeamsController {
   }
 
   @Get()
-  async findAll() {
-    return this.teamsService.findAll();
+  async findAll(@Query('page') page = 1, @Query('pageSize') pageSize = 10) {
+    return this.teamsService.findAll(page, pageSize);
   }
 
   @Put(':team_id')
